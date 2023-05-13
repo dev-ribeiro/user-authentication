@@ -2,9 +2,9 @@
   "name": "users-authentication",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev":"node --watch src/server.js"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,12 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "knex": "^2.4.2",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "sequelize-cli": "^6.6.0"
   }
 }
