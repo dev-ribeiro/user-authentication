@@ -23,11 +23,27 @@ class UserController {
             where: { email: email }
         });
 
-        if(!user) {
+        if (!user) {
             throw new Error();
         };
 
         return user;
+    }
+
+    static async updateUserInfo(email, updatedUser) {
+        const { firstName, lastName } = updatedUser;
+
+        try {
+            await UserModel.update(
+                {
+                    firstName,
+                    lastName
+                },
+                { where: { email } }
+            )
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
