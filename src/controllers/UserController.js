@@ -17,6 +17,18 @@ class UserController {
             throw error;
         }
     }
+
+    static async findByEmail(email) {
+        const user = await UserModel.findOne({
+            where: { email: email }
+        });
+
+        if(!user) {
+            throw new Error();
+        };
+
+        return user;
+    }
 }
 
 module.exports = { UserController }
