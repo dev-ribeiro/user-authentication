@@ -9,6 +9,14 @@ class UserController {
             throw error;
         }
     }
+
+    static async listAll() {
+        try {
+            return await UserModel.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = { UserController }
