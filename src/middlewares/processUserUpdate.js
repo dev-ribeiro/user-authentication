@@ -5,7 +5,6 @@ async function processUserUpdate(req, res, next) {
     const { firstName, lastName } = req.body;
 
     const user = await UserController.findByEmail(email);
-    console.log("MIDDLEWARE ", user)
 
     if (!user) {
         return res.status(400).end();
