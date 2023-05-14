@@ -45,6 +45,16 @@ class UserController {
             throw error;
         }
     }
+
+    static async deleteUserById(id) {
+        try {
+            await UserModel.destroy({
+                where: { id }
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = { UserController }
