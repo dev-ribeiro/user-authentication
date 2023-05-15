@@ -3,6 +3,7 @@ const router = express.Router();
 const { UserController } = require('../controllers/UserController');
 const { processUserUpdate } = require('../middlewares/processUserUpdate');
 const { findUserByEmail } = require('../middlewares/findUserByEmail');
+const { userAdapter } = require('../middlewares/userAdapter');
 
 router.get('/all', async (req, res) => {
     try {
@@ -26,11 +27,11 @@ router.get('/find/:email', async (req, res) => {
     }
 });
 
-router.post('/create', async (req, res) => {
-    const { user } = req.body;
+router.post('/create', userAdapter, async (req, res) => {
+    const encryptedUser = req.encryptedUser;
 
     try {
-        await UserController.createUser(user);
+        await UserController.createUser(encryptedUser);
         return res.status(201).end();
     } catch (error) {
         console.log(error);
