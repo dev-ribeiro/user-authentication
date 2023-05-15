@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/profile.css">
+    <title>Profile</title>
+    <script src="../assets/js/profile.js" defer></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>Profile Info</h1>
+        <div class="container">
+            <form class="update-wrapper">
+
+                <label>First name</label>
+                <input type="text" name="firstName" id="firstName">
+
+                <label>Last name</label>
+                <input type="text" name="lastName" id="lastName">
+
+                <label>Email</label>
+                <span id="email"></span>
+
+                <button>UPDATE USER INFO</button>
+            </form>
+
+            <form class="update-wrapper">
+                <label>New password</label>
+                <input type="password" name="password" id="password">
+
+                <label>Confirm password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword">
+
+                <button>CHANGE PASSWORD</button>
+            </form>
+        </div>
+
+        <div class="operations">
+            <a href="/">Logout</a>
+            <button type="button">DELETE ACCOUNT</button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -5,8 +5,20 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container a {
+    all: unset;
+    cursor: pointer;
+    margin: 0.75rem 0;
+}
+
 .form {
-    max-width: 360px;
+    width: 360px;
     margin: 0 auto;
     display: flex;
     align-items: center;

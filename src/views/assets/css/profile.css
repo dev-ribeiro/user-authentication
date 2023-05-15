@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.wrapper {
+    margin: 0 auto;
+    max-width: 1080px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+}
+
+.update-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.update-wrapper * {
+    width: 100%;
+}
+
+.update-wrapper input {
+    all: unset;
+    padding: 0.25rem;
+    border-bottom: 1px solid black;
+}
+
+.update-wrapper label {
+    font-size: 1.25rem;
+}
+
+.update-wrapper button {
+    all: unset;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #2f5f98;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.operations {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.operations a {
+    all: unset;
+    cursor: pointer;
+    color: #ff0000;
+    font-size: 1.25rem;
+}
+
+.operations button {
+    all: unset;
+    padding: 0.5rem;
+    cursor: pointer;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 12px;
+}
