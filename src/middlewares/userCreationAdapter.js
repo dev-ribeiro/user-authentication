@@ -1,6 +1,6 @@
 const { hashPassword } = require("../services/encryptPassword");
 
-async function userAdapter(req, res, next) {
+async function userCreationAdapter(req, res, next) {
     const { user } = req.body;
     console.log(req.headers.password);
     const { password } = req.headers;
@@ -19,4 +19,4 @@ async function userAdapter(req, res, next) {
     next();
 }
 
-module.exports = { userAdapter }
+module.exports = { userCreationAdapter }
