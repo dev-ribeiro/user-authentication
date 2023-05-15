@@ -23,6 +23,7 @@ body {
 
 .error-container button {
     all: unset;
+    cursor: pointer;
     margin: 0.5rem 0;
     padding: 1rem;
     font-size: 1.5rem;

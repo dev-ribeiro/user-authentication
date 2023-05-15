@@ -55,9 +55,10 @@ body {
 
 .operations {
     margin: 2rem 0;
+    max-width: 240px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 1rem;
 }
 
@@ -71,9 +72,16 @@ body {
 .operations button {
     all: unset;
     padding: 0.5rem;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     background-color: #ff0000;
     color: #fff;
     font-size: 1rem;
     border-radius: 12px;
+}
+
+.operations #logout {
+    background-color: #fff;
+    color: #ff0000;
 }
