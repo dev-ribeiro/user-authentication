@@ -11,25 +11,24 @@ form.addEventListener('submit', (e) => {
 });
 
 async function validateUserLogin(email, password) {
-    const response = await fetch(`/api/login/${email}`, {
-        method: 'POST',
-        headers: {
-            password
-        }
-    });
+    try {
+        const response = await fetch(`/api/login/${email}`, {
+            method: 'POST',
+            headers: {
+                password
+            }
+        });
 
-    if (response.status !== 200) {
+        const data = await response.json();
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email
+        }));
+
+        window.location.href = `${BASE_URL}/profile`;
+    } catch (error) {
         window.location.href = `${BASE_URL}/error`;
-        return;
     }
-
-    const data = await response.json();
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email
-    }));
-
-    window.location.href = `${BASE_URL}/profile`;
 }

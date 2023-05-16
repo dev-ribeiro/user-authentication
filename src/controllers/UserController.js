@@ -19,15 +19,15 @@ class UserController {
     }
 
     static async findByEmail(email) {
-        const user = await UserModel.findOne({
-            where: { email: email }
-        });
+        try {
+            const user = await UserModel.findOne({
+                where: { email: email }
+            });
 
-        if (!user) {
-            throw new Error();
-        };
-
-        return user;
+            return user;
+        } catch (error) {
+            throw error;
+        }
     }
 
     static async updateUserInfo(email, updatedUser) {
