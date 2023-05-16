@@ -31,13 +31,17 @@ class UserController {
     }
 
     static async updateUserInfo(email, updatedUser) {
-        const { firstName, lastName } = updatedUser;
+        const { firstName, lastName, password } = updatedUser;
+
+        const updatedAt = new Date().toLocaleDateString();
 
         try {
             await UserModel.update(
                 {
                     firstName,
-                    lastName
+                    lastName,
+                    password,
+                    updatedAt
                 },
                 { where: { email } }
             )
