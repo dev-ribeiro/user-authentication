@@ -18,14 +18,12 @@ async function validateUserLogin(email, password) {
         }
     });
 
-    const data = await response.json();
-
-    console.log(data);
-
     if (response.status !== 200) {
         window.location.href = `${BASE_URL}/error`;
         return;
     }
+
+    const data = await response.json();
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
         firstName: data.firstName,

@@ -1,14 +1,21 @@
+const wrapper = document.getElementById('wrapper');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 const emailText = document.getElementById('email');
-const password = document.getElementById('password');
 const logout = document.getElementById('logout');
-const confirmPassword = document.getElementById('confirmPassword');
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+const updateUserInfo = document.getElementById('updateUserInfo');
+const updateUserPassword = document.getElementById('updateUserPassword');
+const errorToast = document.getElementById('errorToast');
+const successToast = document.getElementById('successToast');
+
 const STORAGE_KEY = '@user-authentication___v1';
 const BASE_PATH = 'http://localhost:3335';
+const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
 onload = () => {
-    setProfilePreviusData();
+    setProfileData();
 
     logout.addEventListener('click', () => {
         localStorage.removeItem(STORAGE_KEY);
@@ -17,10 +24,62 @@ onload = () => {
     })
 }
 
-function setProfilePreviusData() {
-    const { firstName, lastName, email } = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-    firstNameInput.setAttribute('value', firstName);
-    lastNameInput.setAttribute('value', lastName);
-    emailText.innerText = email;
+function setProfileData() {
+    firstNameInput.setAttribute('value', storageData.firstName);
+    lastNameInput.setAttribute('value', storageData.lastName);
+    emailText.innerText = storageData.email;
 }
+
+updateUserInfo.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(`/api/update/${storageData.email}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "firstName": firstNameInput.value,
+            "lastName": lastNameInput.value
+        })
+    });
+
+    if (response.status !== 200) {
+        bootstrap.Toast.getOrCreateInstance(errorToast).show();
+        return;
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        ...storageData,
+        firstName: firstNameInput.value,
+        lastName: lastNameInput.value
+    }));
+
+    bootstrap.Toast.getOrCreateInstance(successToast).show();
+});
+
+updateUserPassword.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!passwordInput.value || !confirmPasswordInput.value) return bootstrap.Toast.getOrCreateInstance(errorToast).show();
+
+    if (passwordInput.value !== confirmPasswordInput.value) return bootstrap.Toast.getOrCreateInstance(errorToast).show();
+
+    try {
+        await fetch(`/api/update/${storageData.email}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "password": passwordInput.value
+            })
+        });
+
+        bootstrap.Toast.getOrCreateInstance(successToast).show();
+    } catch (error) {
+        console.log(error);
+        bootstrap.Toast.getOrCreateInstance(errorToast).show();
+    }
+
+});
