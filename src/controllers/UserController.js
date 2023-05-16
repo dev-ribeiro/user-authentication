@@ -33,7 +33,7 @@ class UserController {
     static async updateUserInfo(email, updatedUser) {
         const { firstName, lastName, password } = updatedUser;
 
-        const updatedAt = new Date().toLocaleDateString();
+        const updatedAt = new Date().toUTCString();
 
         try {
             await UserModel.update(

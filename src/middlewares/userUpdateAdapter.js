@@ -2,14 +2,13 @@ const { hashPassword } = require('../services/encryptPassword');
 const { UserController } = require('../controllers/UserController');
 
 async function userUpdateAdapter(req, res, next) {
-    console.log(req.body);
     const { email } = req.params;
     const { firstName, lastName, password } = req.body;
 
     const user = await UserController.findByEmail(email);
 
     if (!user) {
-        return res.status(400).end();
+        return res.status(404).end();
     }
 
     if (!password) {

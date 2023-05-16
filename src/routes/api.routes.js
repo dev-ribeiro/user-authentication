@@ -57,10 +57,10 @@ router.put('/update/:email', userUpdateAdapter, async (req, res) => {
 
     try {
         await UserController.updateUserInfo(email, updatedUser);
-        return res.status(200).end();
+        return res.status(202).end();
     } catch (error) {
         console.log(error);
-        return res.status(400).end();
+        return res.status(404).end();
     }
 })
 
