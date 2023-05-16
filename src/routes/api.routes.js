@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { UserController } = require('../controllers/UserController');
-const { processUserUpdate } = require('../middlewares/processUserUpdate');
+const { userUpdateAdapter } = require('../middlewares/userUpdateAdapter');
 const { findUserByEmail } = require('../middlewares/findUserByEmail');
 const { userCreationAdapter } = require('../middlewares/userCreationAdapter');
 const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
@@ -46,7 +46,7 @@ router.post('/create', userCreationAdapter, async (req, res) => {
     }
 });
 
-router.put('/update/:email', processUserUpdate, async (req, res) => {
+router.put('/update/:email', userUpdateAdapter, async (req, res) => {
     const { email } = req.params;
     const updatedUser = req.updatedUser;
 
