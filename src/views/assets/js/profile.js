@@ -2,11 +2,12 @@ const wrapper = document.getElementById('wrapper');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 const emailText = document.getElementById('email');
-const logout = document.getElementById('logout');
 const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirmPassword');
 const updateUserInfo = document.getElementById('updateUserInfo');
 const updateUserPassword = document.getElementById('updateUserPassword');
+const logout = document.getElementById('logout');
+const deleteButton = document.getElementById('deleteButton');
 const errorToast = document.getElementById('errorToast');
 const successToast = document.getElementById('successToast');
 
@@ -83,3 +84,17 @@ updateUserPassword.addEventListener('submit', async (e) => {
     }
 
 });
+
+deleteButton.addEventListener('click', async () => {
+
+    try {
+        await fetch(`/api/delete/${storageData.email}`, {
+            method: 'DELETE'
+        });
+
+        window.location.href = BASE_PATH;
+    } catch (error) {
+        bootstrap.Toast.getOrCreateInstance(errorToast).show();
+    }
+
+})
