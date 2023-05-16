@@ -21,6 +21,11 @@ router.get('/find/:email', async (req, res) => {
 
     try {
         const selectedUser = await UserController.findByEmail(email);
+
+        if(!selectedUser) {
+            throw new Error();
+        }
+
         return res.status(200).json(selectedUser);
     } catch (error) {
         console.log(error);
