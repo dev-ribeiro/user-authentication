@@ -2,19 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { UserController } = require('../controllers/UserController');
 const { userUpdateAdapter } = require('../middlewares/userUpdateAdapter');
-const { findUserByEmail } = require('../middlewares/findUserByEmail');
 const { userCreationAdapter } = require('../middlewares/userCreationAdapter');
 const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
-
-router.get('/all', async (req, res) => {
-    try {
-        const users = await UserController.listAll();
-        return res.status(200).json(users);
-    } catch (error) {
-        console.log(error);
-        return res.status(400).end();
-    }
-});
 
 router.get('/find/:email', async (req, res) => {
     const { email } = req.params;
@@ -22,7 +11,7 @@ router.get('/find/:email', async (req, res) => {
     try {
         const selectedUser = await UserController.findByEmail(email);
 
-        if(!selectedUser) {
+        if (!selectedUser) {
             throw new Error();
         }
 
@@ -62,18 +51,18 @@ router.put('/update/:email', userUpdateAdapter, async (req, res) => {
         console.log(error);
         return res.status(404).end();
     }
-})
+});
 
-router.delete('/delete/:email', findUserByEmail, async (req, res) => {
-    const id = req.userId;
+router.delete('/delete/:email', async (req, res) => {
+    const { email } = req.params;
 
     try {
-        await UserController.deleteUserById(id);
-        return res.status(200).end();
+        await UserController.deleteUserByEmail(email);
+        return res.status(202).end();
     } catch (error) {
         console.log(error);
-        return res.status(400).end()
+        return res.status(404).end();
     }
-})
+});
 
 module.exports = router

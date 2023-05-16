@@ -10,14 +10,6 @@ class UserController {
         }
     }
 
-    static async listAll() {
-        try {
-            return await UserModel.findAll();
-        } catch (error) {
-            throw error;
-        }
-    }
-
     static async findByEmail(email) {
         try {
             const user = await UserModel.findOne({
@@ -50,10 +42,10 @@ class UserController {
         }
     }
 
-    static async deleteUserById(id) {
+    static async deleteUserByEmail(email) {
         try {
             await UserModel.destroy({
-                where: { id }
+                where: { email }
             })
         } catch (error) {
             throw error;
