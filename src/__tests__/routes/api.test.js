@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('supertest');
 const { router } = require('../../routes/routes');
-const { userAlreadyExists } = require('../utils/userAlreadyExists');
+const { userAlreadyExists } = require('../../utils/userAlreadyExists');
 
 const testServer = express();
 
