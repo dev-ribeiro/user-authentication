@@ -1,6 +1,6 @@
 const request = require('supertest');
 
-async function userAlreadyExists(url, email) {
+async function verifyUserAlreadyExists(url, email) {
     const userResponse = await request(url)
         .get(`/api/find/${email}`)
 
@@ -9,4 +9,4 @@ async function userAlreadyExists(url, email) {
     return true;
 };
 
-module.exports = { userAlreadyExists };
+module.exports = { verifyUserAlreadyExists };

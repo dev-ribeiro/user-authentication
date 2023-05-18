@@ -1,7 +1,6 @@
-const express = require('express');
 const request = require('supertest');
 const { app } = require('../../app');
-const { userAlreadyExists } = require('../../utils/userAlreadyExists');
+const { verifyUserAlreadyExists } = require('../../utils/verifyUserAlreadyExists');
 
 
 const BASE_URL = 'http://localhost:3336';
@@ -13,20 +12,23 @@ const testUser = {
     password: 'example'
 }
 
-describe('API endpoints test', () => {
+describe('Testes dos endpoints da api', () => {
     let testServer;
+    let userAlreadyExists;
 
-    beforeAll(async () => {
+    beforeAll(() => {
         testServer = app.listen(3336, () => console.log('Test server running on port 3336'));
+    });
+
+    beforeEach(async () => {
+        userAlreadyExists = await verifyUserAlreadyExists(BASE_URL, testUser.email);
     });
 
     afterAll(async () => {
         await testServer.close();
     });
 
-    it('/create - should create a new user', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
-
+    it('/create - deve ser possível criar um novo usuário', async () => {
         const response = await request(BASE_URL)
             .post('/api/create')
             .set('Content-Type', 'application/json')
@@ -39,7 +41,7 @@ describe('API endpoints test', () => {
                 }
             });
 
-        if (verifyUserAlreadyExists) {
+        if (userAlreadyExists) {
             expect(response.status).toEqual(400);
             return;
         }
@@ -47,25 +49,33 @@ describe('API endpoints test', () => {
         expect(response.status).toEqual(201);
     });
 
-    it('/find/:email - should find user by email', async () => {
+    it('/find/:id - deve ser possível localizar um usuário pelo id', async () => {
         const response = await request(BASE_URL)
             .get(`/api/find/${testUser.email}`);
 
-        expect(response.status).toEqual(200);
+        if (!userAlreadyExists) {
+            expect(response.status).toEqual(400);
+            return;
+        }
 
+        expect(response.status).toEqual(200);
     });
 
-    it('/login/:email - should login user', async () => {
-
+    it('/login/:id - deve ser possível fazer o login pelo id', async () => {
         const response = await request(BASE_URL)
             .post(`/api/login/${testUser.email}`)
-            .set('password', 'admin');
+            .set('password', testUser.password)
+
+        if (!userAlreadyExists) {
+            expect(response.status).toEqual(400);
+            return;
+        }
 
         expect(response.status).toEqual(200);
+
     });
 
-    it('/update/:email - should update first name and last name', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
+    it('/update/:id - deve ser possível atualizar o nome e sobrenome do usuário', async () => {
 
         const response = await request(BASE_URL)
             .put(`/api/update/${testUser.email}`)
@@ -75,16 +85,15 @@ describe('API endpoints test', () => {
                 lastName: 'Sobrenome atualizado 2'
             })
 
-        if (verifyUserAlreadyExists) {
-            expect(response.status).toEqual(202);
+        if (!userAlreadyExists) {
+            expect(response.status).toEqual(404);
             return;
         }
 
-        expect(response.status).toEqual(404);
+        expect(response.status).toEqual(202);
     });
 
-    it('/update/:email - should update password', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
+    it('/update/:id - deve ser possível atualizar a senha do usuário', async () => {
 
         const response = await request(BASE_URL)
             .put(`/api/update/${testUser.email}`)
@@ -93,25 +102,24 @@ describe('API endpoints test', () => {
                 password: 'novo_password'
             });
 
-        if (verifyUserAlreadyExists) {
-            expect(response.status).toEqual(202);
+        if (!userAlreadyExists) {
+            expect(response.status).toEqual(404);
             return;
         }
 
-        expect(response.status).toEqual(404);
+        expect(response.status).toEqual(202);
     });
 
-    it('/delete/:email - should delete user', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
+    it('/delete/:id - deve ser possível deletar o usuário', async () => {
 
         const response = await request(BASE_URL)
             .delete(`/api/delete/${testUser.email}`);
 
-        if (verifyUserAlreadyExists) {
-            expect(response.status).toEqual(202);
+        if (!userAlreadyExists) {
+            expect(response.status).toEqual(404);
             return;
         }
 
-        expect(response.status).toEqual(404);
+        expect(response.status).toEqual(202);
     });
 });
