@@ -45,7 +45,8 @@ updateUserInfo.addEventListener('submit', async (e) => {
         })
     });
 
-    if (response.status !== 200) {
+    console.log(response)
+    if (response.status !== 202) {
         bootstrap.Toast.getOrCreateInstance(errorToast).show();
         return;
     }
@@ -79,7 +80,6 @@ updateUserPassword.addEventListener('submit', async (e) => {
 
         bootstrap.Toast.getOrCreateInstance(successToast).show();
     } catch (error) {
-        console.log(error);
         bootstrap.Toast.getOrCreateInstance(errorToast).show();
     }
 

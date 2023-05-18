@@ -1,25 +1,17 @@
 const express = require('express');
 const request = require('supertest');
 const { router } = require('../../routes/routes');
+const { userAlreadyExists } = require('../utils/userAlreadyExists');
 
 const testServer = express();
 
 const BASE_URL = 'http://localhost:3335';
 
 const testUser = {
-    firstName: 'David',
-    lastName: 'Ribeiro',
-    email: 'admin@example.com',
-    password: 'admin'
-}
-
-async function userAlreadyExists() {
-    const userResponse = await request(BASE_URL)
-        .get(`/api/find/${testUser.email}`)
-
-    if (userResponse.status !== 200) return false;
-
-    return true;
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'example@example.com',
+    password: 'example'
 }
 
 describe('API endpoints test', () => {
@@ -39,7 +31,7 @@ describe('API endpoints test', () => {
     });
 
     it('/create - should create a new user', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists();
+        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
 
         const response = await request(BASE_URL)
             .post('/api/create')
@@ -79,7 +71,7 @@ describe('API endpoints test', () => {
     });
 
     it('/update/:email - should update first name and last name', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists();
+        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
 
         const response = await request(BASE_URL)
             .put(`/api/update/${testUser.email}`)
@@ -98,7 +90,7 @@ describe('API endpoints test', () => {
     });
 
     it('/update/:email - should update password', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists();
+        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
 
         const response = await request(BASE_URL)
             .put(`/api/update/${testUser.email}`)
@@ -116,7 +108,7 @@ describe('API endpoints test', () => {
     });
 
     it('/delete/:email - should delete user', async () => {
-        const verifyUserAlreadyExists = await userAlreadyExists();
+        const verifyUserAlreadyExists = await userAlreadyExists(BASE_URL, testUser.email);
 
         const response = await request(BASE_URL)
             .delete(`/api/delete/${testUser.email}`);
