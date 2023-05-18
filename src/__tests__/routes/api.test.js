@@ -1,11 +1,10 @@
 const express = require('express');
 const request = require('supertest');
-const { router } = require('../../routes/routes');
+const { app } = require('../../app');
 const { userAlreadyExists } = require('../../utils/userAlreadyExists');
 
-const testServer = express();
 
-const BASE_URL = 'http://localhost:3335';
+const BASE_URL = 'http://localhost:3336';
 
 const testUser = {
     firstName: 'John',
@@ -15,19 +14,14 @@ const testUser = {
 }
 
 describe('API endpoints test', () => {
+    let testServer;
+
     beforeAll(async () => {
-        try {
-            const response = await fetch(BASE_URL);
+        testServer = app.listen(3336, () => console.log('Test server running on port 3336'));
+    });
 
-            if (response.status !== 200) {
-                throw new Error();
-            }
-
-        } catch (error) {
-            testServer.use(express.json());
-            testServer.use(router);
-            testServer.listen(3335, () => console.log('Test server running on port 3335'));
-        }
+    afterAll(async () => {
+        await testServer.close();
     });
 
     it('/create - should create a new user', async () => {
