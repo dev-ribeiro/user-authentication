@@ -5,11 +5,11 @@ const { userUpdateAdapter } = require('../middlewares/userUpdateAdapter');
 const { userCreationAdapter } = require('../middlewares/userCreationAdapter');
 const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
 
-router.get('/find/:email', async (req, res) => {
-    const { email } = req.params;
+router.get('/find/:id', async (req, res) => {
+    const { id } = req.params;
 
     try {
-        const selectedUser = await UserController.findByEmail(email);
+        const selectedUser = await UserController.findById(id);
 
         if (!selectedUser) {
             throw new Error();
@@ -40,12 +40,12 @@ router.post('/create', userCreationAdapter, async (req, res) => {
     }
 });
 
-router.put('/update/:email', userUpdateAdapter, async (req, res) => {
-    const { email } = req.params;
+router.put('/update/:id', userUpdateAdapter, async (req, res) => {
+    const { id } = req.params;
     const updatedUser = req.updatedUser;
 
     try {
-        await UserController.updateUserInfo(email, updatedUser);
+        await UserController.updateUserInfo(id, updatedUser);
         return res.status(202).end();
     } catch (error) {
         console.log(error);
@@ -53,11 +53,11 @@ router.put('/update/:email', userUpdateAdapter, async (req, res) => {
     }
 });
 
-router.delete('/delete/:email', async (req, res) => {
-    const { email } = req.params;
+router.delete('/delete/:id', async (req, res) => {
+    const { id } = req.params;
 
     try {
-        await UserController.deleteUserByEmail(email);
+        await UserController.deleteUser(id);
         return res.status(202).end();
     } catch (error) {
         console.log(error);

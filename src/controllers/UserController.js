@@ -22,7 +22,19 @@ class UserController {
         }
     }
 
-    static async updateUserInfo(email, updatedUser) {
+    static async findById(id) {
+        try {
+            const user = await UserModel.findOne({
+                where: { id }
+            });
+
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async updateUserInfo(id, updatedUser) {
         const { firstName, lastName, password } = updatedUser;
 
         const updatedAt = new Date().toUTCString();
@@ -35,17 +47,17 @@ class UserController {
                     password,
                     updatedAt
                 },
-                { where: { email } }
+                { where: { id } }
             )
         } catch (error) {
             throw error;
         }
     }
 
-    static async deleteUserByEmail(email) {
+    static async deleteUser(id) {
         try {
             await UserModel.destroy({
-                where: { email }
+                where: { id }
             })
         } catch (error) {
             throw error;
