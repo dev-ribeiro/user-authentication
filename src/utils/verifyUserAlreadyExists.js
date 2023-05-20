@@ -1,12 +1,25 @@
-const request = require('supertest');
+const { UserController } = require('../controllers/UserController');
 
-async function verifyUserAlreadyExists(url, email) {
-    const userResponse = await request(url)
-        .get(`/api/find/${email}`)
+async function verifyUserAlreadyExists(email) {
+    try {
+        const user = await UserController.findByEmail(email);
 
-    if (userResponse.status !== 200) return false;
+        if (!user) {
+            throw new Error()
+        }
 
-    return true;
+        return {
+            result: true,
+            user
+        }
+    } catch (error) {
+        console.log(error);
+
+        return {
+            result: false,
+            user: null
+        }
+    }
 };
 
 module.exports = { verifyUserAlreadyExists };
