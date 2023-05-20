@@ -22,6 +22,7 @@ async function validateUserLogin(email, password) {
         const data = await response.json();
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            id: data.id,
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email
