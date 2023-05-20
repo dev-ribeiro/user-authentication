@@ -15,13 +15,16 @@ const testUser = {
 describe('Testes dos endpoints da api', () => {
     let testServer;
     let userAlreadyExists;
+    let testUserId;
 
     beforeAll(() => {
         testServer = app.listen(3336, () => console.log('Test server running on port 3336'));
     });
 
     beforeEach(async () => {
-        userAlreadyExists = await verifyUserAlreadyExists(BASE_URL, testUser.email);
+        const { result, user } = await verifyUserAlreadyExists(testUser.email);
+        userAlreadyExists = result;
+        testUserId = user !== null && user.id;
     });
 
     afterAll(async () => {
@@ -29,6 +32,8 @@ describe('Testes dos endpoints da api', () => {
     });
 
     it('/create - deve ser possível criar um novo usuário', async () => {
+        console.log(userAlreadyExists)
+
         const response = await request(BASE_URL)
             .post('/api/create')
             .set('Content-Type', 'application/json')
@@ -50,8 +55,9 @@ describe('Testes dos endpoints da api', () => {
     });
 
     it('/find/:id - deve ser possível localizar um usuário pelo id', async () => {
+
         const response = await request(BASE_URL)
-            .get(`/api/find/${testUser.email}`);
+        .get(`/api/find/${testUserId}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(400);
@@ -61,7 +67,7 @@ describe('Testes dos endpoints da api', () => {
         expect(response.status).toEqual(200);
     });
 
-    it('/login/:id - deve ser possível fazer o login pelo id', async () => {
+    it('/login/:email - deve ser possível fazer o login pelo id', async () => {
         const response = await request(BASE_URL)
             .post(`/api/login/${testUser.email}`)
             .set('password', testUser.password)
@@ -78,7 +84,7 @@ describe('Testes dos endpoints da api', () => {
     it('/update/:id - deve ser possível atualizar o nome e sobrenome do usuário', async () => {
 
         const response = await request(BASE_URL)
-            .put(`/api/update/${testUser.email}`)
+            .put(`/api/update/${testUserId}`)
             .set('Content-Type', 'application/json')
             .send({
                 firstName: 'Primeiro nome atualizado',
@@ -96,7 +102,7 @@ describe('Testes dos endpoints da api', () => {
     it('/update/:id - deve ser possível atualizar a senha do usuário', async () => {
 
         const response = await request(BASE_URL)
-            .put(`/api/update/${testUser.email}`)
+            .put(`/api/update/${testUserId}`)
             .set('Content-Type', 'application/json')
             .send({
                 password: 'novo_password'
@@ -113,7 +119,7 @@ describe('Testes dos endpoints da api', () => {
     it('/delete/:id - deve ser possível deletar o usuário', async () => {
 
         const response = await request(BASE_URL)
-            .delete(`/api/delete/${testUser.email}`);
+            .delete(`/api/delete/${testUserId}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(404);
