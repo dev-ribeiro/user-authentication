@@ -32,17 +32,15 @@ describe('Testes dos endpoints da api', () => {
     });
 
     it('/create - deve ser possível criar um novo usuário', async () => {
-        console.log(userAlreadyExists)
-
         const response = await request(BASE_URL)
             .post('/api/create')
             .set('Content-Type', 'application/json')
-            .set('password', testUser.password)
             .send({
                 "user": {
                     firstName: testUser.firstName,
                     lastName: testUser.lastName,
-                    email: testUser.email
+                    email: testUser.email,
+                    password: testUser.password
                 }
             });
 
@@ -57,7 +55,7 @@ describe('Testes dos endpoints da api', () => {
     it('/find/:id - deve ser possível localizar um usuário pelo id', async () => {
 
         const response = await request(BASE_URL)
-        .get(`/api/find/${testUserId}`);
+            .get(`/api/find/${testUserId}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(400);
@@ -70,7 +68,9 @@ describe('Testes dos endpoints da api', () => {
     it('/login/:email - deve ser possível fazer o login pelo id', async () => {
         const response = await request(BASE_URL)
             .post(`/api/login/${testUser.email}`)
-            .set('password', testUser.password)
+            .send({
+                password: testUser.password
+            })
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(400);

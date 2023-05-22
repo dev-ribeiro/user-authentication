@@ -3,7 +3,7 @@ const { comparePassword } = require("../services/encryptPassword");
 
 async function userLoginAdapter(req, res, next) {
     const { email } = req.params;
-    const { password } = req.headers;
+    const { password } = req.body;
 
     if (!email || !password) return res.status(400).end();
 

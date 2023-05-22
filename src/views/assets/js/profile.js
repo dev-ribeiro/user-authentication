@@ -45,7 +45,6 @@ updateUserInfo.addEventListener('submit', async (e) => {
         })
     });
 
-    console.log(response)
     if (response.status !== 202) {
         bootstrap.Toast.getOrCreateInstance(errorToast).show();
         return;

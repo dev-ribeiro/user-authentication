@@ -14,9 +14,9 @@ async function validateUserLogin(email, password) {
     try {
         const response = await fetch(`/api/login/${email}`, {
             method: 'POST',
-            headers: {
+            body: JSON.stringify({
                 password
-            }
+            })
         });
 
         const data = await response.json();

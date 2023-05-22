@@ -15,25 +15,21 @@ form.addEventListener('submit', (e) => {
         firstName: firstName.value,
         lastName: lastName.value,
         email: email.value,
+        password: password.value
     };
 
-    const userPassword = password.value;
-
-    registerUser(register, userPassword);
+    registerUser(register);
 });
 
-async function registerUser(user, password) {
+async function registerUser(user) {
     try {
         const response = await fetch('/api/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                password
             },
             body: JSON.stringify({ "user": user })
         });
-
-        console.log(response);
 
         if (response.status !== 201) {
             throw new Error();
