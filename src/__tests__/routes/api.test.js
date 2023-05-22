@@ -52,10 +52,10 @@ describe('Testes dos endpoints da api', () => {
         expect(response.status).toEqual(201);
     });
 
-    it('/find/:id - deve ser possível localizar um usuário pelo id', async () => {
+    it('/find/:email - deve ser possível localizar um usuário pelo email', async () => {
 
         const response = await request(BASE_URL)
-            .get(`/api/find/${testUserId}`);
+            .get(`/api/find/${testUser.email}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(400);
@@ -65,7 +65,7 @@ describe('Testes dos endpoints da api', () => {
         expect(response.status).toEqual(200);
     });
 
-    it('/login/:email - deve ser possível fazer o login pelo id', async () => {
+    it('/login/:email - deve ser possível fazer o login pelo email', async () => {
         const response = await request(BASE_URL)
             .post(`/api/login/${testUser.email}`)
             .send({
