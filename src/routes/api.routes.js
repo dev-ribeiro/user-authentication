@@ -5,11 +5,11 @@ const { userUpdateAdapter } = require('../middlewares/userUpdateAdapter');
 const { userCreationAdapter } = require('../middlewares/userCreationAdapter');
 const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
 
-router.get('/find/:id', async (req, res) => {
-    const { id } = req.params;
+router.get('/find/:email', async (req, res) => {
+    const { email } = req.params;
 
     try {
-        const selectedUser = await UserController.findById(id);
+        const selectedUser = await UserController.findByEmail(email);
 
         if (!selectedUser) {
             throw new Error();
