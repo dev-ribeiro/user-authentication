@@ -34,7 +34,10 @@ function setProfileData() {
 updateUserInfo.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`/api/update/${storageData.id}`, {
+    const getUser = await fetch(`/api/find/${storageData.email}`);
+    const { id } = await getUser.json();
+
+    const response = await fetch(`/api/update/${id}`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json"
@@ -66,8 +69,12 @@ updateUserPassword.addEventListener('submit', async (e) => {
 
     if (passwordInput.value !== confirmPasswordInput.value) return bootstrap.Toast.getOrCreateInstance(errorToast).show();
 
+    const getUser = await fetch(`/api/find/${storageData.email}`);
+
+    const { id } = await getUser.json();
+
     try {
-        await fetch(`/api/update/${storageData.id}`, {
+        await fetch(`/api/update/${id}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json"
@@ -85,9 +92,12 @@ updateUserPassword.addEventListener('submit', async (e) => {
 });
 
 deleteButton.addEventListener('click', async () => {
+    const getUser = await fetch(`/api/find/${storageData.email}`);
+
+    const { id } = await getUser.json();
 
     try {
-        await fetch(`/api/delete/${storageData.id}`, {
+        await fetch(`/api/delete/${id}`, {
             method: 'DELETE'
         });
 

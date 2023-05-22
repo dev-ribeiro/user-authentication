@@ -35,7 +35,11 @@ async function registerUser(user) {
             throw new Error();
         }
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...user }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+        }));
 
         window.location.href = `${BASE_URL}/profile`
     } catch (error) {
