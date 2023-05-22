@@ -13,7 +13,7 @@ async function userLoginAdapter(req, res, next) {
 
     const verifyPassword = await comparePassword(password, user.dataValues.password);
 
-    if (!verifyPassword) return res.status(400).end();
+    if (!verifyPassword) return res.status(403).end();
 
     req.user = user.dataValues;
 

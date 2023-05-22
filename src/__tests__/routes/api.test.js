@@ -73,7 +73,7 @@ describe('Testes dos endpoints da api', () => {
             })
 
         if (!userAlreadyExists) {
-            expect(response.status).toEqual(400);
+            expect(response.status).toEqual(404);
             return;
         }
 
