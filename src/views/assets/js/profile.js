@@ -13,13 +13,13 @@ const successToast = document.getElementById('successToast');
 
 const STORAGE_KEY = '@user-authentication___v1';
 const BASE_PATH = 'http://localhost:3335';
-const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+const storageData = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
 
 onload = () => {
     setProfileData();
 
     logout.addEventListener('click', () => {
-        localStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(STORAGE_KEY);
 
         window.location.href = BASE_PATH;
     })
@@ -53,7 +53,7 @@ updateUserInfo.addEventListener('submit', async (e) => {
         return;
     }
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
         ...storageData,
         firstName: firstNameInput.value,
         lastName: lastNameInput.value
