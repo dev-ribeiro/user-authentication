@@ -33,7 +33,7 @@ describe('Testes dos endpoints da api', () => {
 
     it('/create - deve ser possível criar um novo usuário', async () => {
         const response = await request(BASE_URL)
-            .post('/api/create')
+            .post('/api/users')
             .set('Content-Type', 'application/json')
             .send({
                 "user": {
@@ -55,13 +55,17 @@ describe('Testes dos endpoints da api', () => {
     it('/find/:email - deve ser possível localizar um usuário pelo email', async () => {
 
         const response = await request(BASE_URL)
-            .get(`/api/find/${testUser.email}`);
+            .get(`/api/users/${testUser.email}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(400);
             return;
         }
 
+        const user = JSON.parse(response.text);
+
+        expect(user.firstName).toEqual(testUser.firstName);
+        expect(user.lastName).toEqual(testUser.lastName);
         expect(response.status).toEqual(200);
     });
 
@@ -77,14 +81,17 @@ describe('Testes dos endpoints da api', () => {
             return;
         }
 
-        expect(response.status).toEqual(200);
+        const user = JSON.parse(response.text);
 
+        expect(user.firstName).toEqual(testUser.firstName);
+        expect(user.lastName).toEqual(testUser.lastName);
+        expect(response.status).toEqual(200);
     });
 
     it('/update/:id - deve ser possível atualizar o nome e sobrenome do usuário', async () => {
 
         const response = await request(BASE_URL)
-            .put(`/api/update/${testUserId}`)
+            .put(`/api/users/${testUserId}`)
             .set('Content-Type', 'application/json')
             .send({
                 firstName: 'Primeiro nome atualizado',
@@ -102,7 +109,7 @@ describe('Testes dos endpoints da api', () => {
     it('/update/:id - deve ser possível atualizar a senha do usuário', async () => {
 
         const response = await request(BASE_URL)
-            .put(`/api/update/${testUserId}`)
+            .put(`/api/users/${testUserId}`)
             .set('Content-Type', 'application/json')
             .send({
                 password: 'novo_password'
@@ -119,7 +126,7 @@ describe('Testes dos endpoints da api', () => {
     it('/delete/:id - deve ser possível deletar o usuário', async () => {
 
         const response = await request(BASE_URL)
-            .delete(`/api/delete/${testUserId}`);
+            .delete(`/api/users/${testUserId}`);
 
         if (!userAlreadyExists) {
             expect(response.status).toEqual(404);

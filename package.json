@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "test": "jest",
-    "test:server": "jest --forceExit",
+    "debug": "node --inspect src/server.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate"
   },
