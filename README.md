@@ -100,7 +100,7 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
 <div>
 
-  <p style="text-indent: 16px">Esta rota deve retornar um usuário, caso exista, a partir do email passado como parâmetro da rota.</p>
+  <p style="text-indent: 16px">Esta rota deve retornar um usuário, caso exista, a partir do email passado como parâmetro da rota. Deve-se utilizar o método findByEmail do UserController para buscar um usuário no banco de dados.</p>
 
   <p>
     Em caso de <span style="color: #00FF00">Sucesso</span>:
@@ -111,12 +111,13 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
     // Deve retornar um usuário com a seguinte interface:
     interface User {
+      id: string;
       firstName: string;
       lastName: string;
       email: string;
       password: string;
-      createdAt: string;
-      updatedAt: string;
+      createdAt: Date;
+      updatedAt: Date;
     }
   ```
 
@@ -136,7 +137,7 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
 <div>
 
-  <p style="text-indent: 16px">Esta rota possui um middleware que recebe o password, via header da requisição, e faz uma comparação do password criptografado com o password recebido, via função <span style="font-style: italic">comparePassword</span>. Este middleware deve atribuir a requisição o usuário encontrado se houver, ou lançar um erro.</p>
+  <p style="text-indent: 16px">Esta rota possui um middleware que recebe o password, via header da requisição, e faz uma comparação do password criptografado com o password recebido, via função <span style="font-style: italic">comparePassword</span>. Este middleware deve atribuir a requisição o usuário encontrado se houver, ou lançar um erro. Por fim, deve-se utilizar a função findByEmail do UserController.</p>
 
   <p>
     Em caso de <span style="color: #00FF00">Sucesso</span>:
@@ -147,12 +148,13 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
     // Deve retornar um usuário com a seguinte interface:
     interface User {
+      id: string;
       firstName: string;
       lastName: string;
       email: string;
       password: string;
-      createdAt: string;
-      updatedAt: string;
+      createdAt: Date;
+      updatedAt: Date;
     }
   ```
 
@@ -172,7 +174,7 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
 <div>
 
-  <p style="text-indent: 16px">Esta recebe os parâmtros de cadastro (firstName, lastName, email, password) do usuário pelo body da requisição. Os campos id, createdAt e updatedAt, são criados e atualizados, no caso do updatedAt, pelo banco de dados.</p>
+  <p style="text-indent: 16px">Esta recebe os parâmtros de cadastro (firstName, lastName, email, password) do usuário pelo body da requisição. Os campos id, createdAt e updatedAt, são criados e atualizados, no caso do updatedAt, pelo banco de dados. Deve-se utilizar o método createUser do UserController para cadastrar o usuário no banco de dados.</p>
 
   <p>
     Em caso de <span style="color: #00FF00">Sucesso</span>:
@@ -180,6 +182,16 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
   ```typescript
     // STATUS CODE = 201;
+
+    interface User {
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      password: string;
+      createdAt: Date;
+      updatedAt: Date;
+    }
   ```
 
   <p>
@@ -198,7 +210,7 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
 <div>
 
-  <p style="text-indent: 16px">Esta rota pode receber os parâmetros de cadastro (firstName, lastName, e password) do usuário pelo body da requisição. Deve-se efetuar o tratamento de dados para update e verificar se há ou não atualização do password</p>
+  <p style="text-indent: 16px">Esta rota pode receber os parâmetros de cadastro (firstName, lastName, e password) do usuário pelo body da requisição. Deve-se efetuar o tratamento de dados para update e verificar se há ou não atualização do password. Deve-se utilizar a função findById e updateUserInfo do UserController.</p>
 
   <p>
     Em caso de <span style="color: #00FF00">Sucesso</span>:
@@ -224,7 +236,7 @@ Quando concluir corretamente todas as implementações, deverá ser exibido o se
 
 <div>
 
-  <p style="text-indent: 16px">Esta rota tem a função de apagar em definitivo um registro de usuário no banco de dados. Além disso, ela deve receber como parâmetro o id do usuário.</p>
+  <p style="text-indent: 16px">Esta rota tem a função de apagar em definitivo um registro de usuário no banco de dados. Além disso, ela deve receber como parâmetro o id do usuário. Deve-se utilizar a função findById e deleteUser do UserController.</p>
 
   <p>
     Em caso de <span style="color: #00FF00">Sucesso</span>:

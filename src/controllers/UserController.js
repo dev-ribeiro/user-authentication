@@ -4,7 +4,7 @@ class UserController {
 
     static async createUser(createUser) {
         try {
-            return await UserModel.create(createUser)
+            return await UserModel.create(createUser);
         } catch (error) {
             throw error;
         }
