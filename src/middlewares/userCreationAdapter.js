@@ -1,15 +1,27 @@
 const { hashPassword } = require("../services/encryptPassword");
 
+function isValidUser(user) {
+
+  return Object.values(user).every(value => !value && value !== '');
+};
+
 async function userCreationAdapter(req, res, next) {
-    const { user } = req.body;
+  const { user } = req.body;
 
-    // TODO
+  if (!user) return res.status(400).end();
 
-    const encryptedUser = null;
+  const validatedUser = isValidUser(user);
 
-    req.encryptedUser = encryptedUser;
+  if(!validatedUser) return res.status(400).end();
 
-    next();
+  const encryptedUser = {
+    ...user,
+    password: await hashPassword(user.password)
+  };
+
+  req.encryptedUser = encryptedUser;
+
+  next();
 }
 
 module.exports = { userCreationAdapter }

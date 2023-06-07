@@ -6,70 +6,72 @@ const { userCreationAdapter } = require('../middlewares/userCreationAdapter');
 const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
 
 router.get('/users/:email', async (req, res) => {
-    const { email } = req.params;
+  const { email } = req.params;
 
-    try {
-        // TODO
-        const selectedUser = {};
+  try {
+    // TODO
+    const selectedUser = {};
 
-        if (!selectedUser) {
-            throw new Error();
-        }
-
-        return res.status(200).json(selectedUser);
-    } catch (error) {
-        console.log(error);
-        return res.status(400).end();
+    if (!selectedUser) {
+      throw new Error();
     }
+
+    return res.status(200).json(selectedUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).end();
+  }
 });
 
 router.post('/login/:email', userLoginAdapter, async (req, res) => {
-    const user = req.user;
+  const user = req.user;
 
-    return res.status(200).json(user);
+  return res.status(200).json(user);
 });
 
 router.post('/users', userCreationAdapter, async (req, res) => {
-    const encryptedUser = req.encryptedUser;
+  const encryptedUser = req.encryptedUser;
 
-    try {
-        // TODO
+  try {
+    if (!encryptedUser) throw new Error();
 
-        if(!encryptedUser) throw new Error();
+    const { dataValues } = await UserController.createUser(encryptedUser);
 
-        return res.status(201).end();
-    } catch (error) {
-        console.log(error);
-        return res.status(400).end();
-    }
+    const createdUser = {...dataValues};
+
+    return res.status(201).json(createdUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).end();
+  }
 });
 
 router.put('/users/:id', userUpdateAdapter, async (req, res) => {
-    const { id } = req.params;
-    const updatedUser = req.updatedUser;
+  const { id } = req.params;
+  const updatedUser = req.updatedUser;
 
-    try {
-        // TODO
+  try {
+    // TODO
 
-        return res.status(202).end();
-    } catch (error) {
-        console.log(error);
-        return res.status(404).end();
-    }
+    return res.status(202).end();
+  } catch (error) {
+    console.log(error);
+    return res.status(404).end();
+  }
 });
 
 router.delete('/users/:id', async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    try {
+  try {
 
-        // TODO
+    // TODO
 
-        return res.status(202).end();
-    } catch (error) {
-        console.log(error);
-        return res.status(404).end();
-    }
+    return res.status(202).end();
+  } catch (error) {
+    console.log(error);
+    return res.status(404).end();
+  }
 });
 
 module.exports = router
