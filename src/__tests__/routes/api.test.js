@@ -64,7 +64,7 @@ describe('Testes dos endpoints da api', () => {
       .get(`/api/users/${testUser.email}`);
 
     if (!userAlreadyExists) {
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(404);
       return;
     }
 
@@ -139,6 +139,6 @@ describe('Testes dos endpoints da api', () => {
       return;
     }
 
-    expect(response.status).toEqual(202);
+    expect(response.status).toEqual(204);
   });
 });

@@ -2,7 +2,7 @@ const { hashPassword } = require("../services/encryptPassword");
 
 function isValidUser(user) {
 
-  return Object.values(user).every(value => !value && value !== '');
+  return Object.values(user).every(value => value !== null && value !== '');
 };
 
 async function userCreationAdapter(req, res, next) {

@@ -56,9 +56,11 @@ class UserController {
 
     static async deleteUser(id) {
         try {
-            await UserModel.destroy({
+            const result = await UserModel.destroy({
                 where: { id }
             })
+
+            if(result === 0) throw new Error();
         } catch (error) {
             throw error;
         }

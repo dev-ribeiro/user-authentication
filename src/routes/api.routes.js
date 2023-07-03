@@ -8,9 +8,13 @@ const { userLoginAdapter } = require('../middlewares/userLoginAdapter');
 router.get('/users/:email', async (req, res) => {
   const { email } = req.params;
 
+  if(!email) {
+    return res.status(400).end();
+  }
+
   try {
     // TODO
-    const selectedUser = {};
+    const selectedUser = await UserController.findByEmail(email);
 
     if (!selectedUser) {
       throw new Error();
@@ -19,7 +23,7 @@ router.get('/users/:email', async (req, res) => {
     return res.status(200).json(selectedUser);
   } catch (error) {
     console.log(error);
-    return res.status(400).end();
+    return res.status(404).end();
   }
 });
 
@@ -63,11 +67,15 @@ router.put('/users/:id', userUpdateAdapter, async (req, res) => {
 router.delete('/users/:id', async (req, res) => {
   const { id } = req.params;
 
+  if(!id) {
+    return res.status(400).end();
+  }
+
   try {
 
-    // TODO
+    await UserController.deleteUser(Number(id));
 
-    return res.status(202).end();
+    return res.status(204).end();
   } catch (error) {
     console.log(error);
     return res.status(404).end();
