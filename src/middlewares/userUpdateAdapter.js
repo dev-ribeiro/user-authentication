@@ -2,14 +2,35 @@ const { hashPassword } = require('../services/encryptPassword');
 const { UserController } = require('../controllers/UserController');
 
 async function userUpdateAdapter(req, res, next) {
-    const { id } = req.params;
-    const { firstName, lastName, password } = req.body;
+  const { id } = req.params;
+  const { firstName, lastName, password } = req.body;
 
-    // TODO
+  const user = await UserController.findById(id);
 
-    req.updatedUser = null;
+  if (!user) {
+      return res.status(404).end();
+  }
 
-    next();
+  if (!password) {
+      req.updatedUser = {
+          firstName: firstName ?? user.firstName,
+          lastName: lastName ?? user.lastName,
+          password: user.password
+      }
+
+      next();
+      return;
+  }
+
+  const encryptedUpdatedPassword = await hashPassword(password);
+
+  req.updatedUser = {
+      firstName: firstName ?? user.firstName,
+      lastName: lastName ?? user.lastName,
+      password: encryptedUpdatedPassword
+  }
+
+  next();
 }
 
 module.exports = { userUpdateAdapter }

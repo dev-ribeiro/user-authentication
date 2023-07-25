@@ -55,12 +55,11 @@ router.put('/users/:id', userUpdateAdapter, async (req, res) => {
   const updatedUser = req.updatedUser;
 
   try {
-    // TODO
-
-    return res.status(202).end();
+      await UserController.updateUserInfo(id, updatedUser);
+      return res.status(202).end();
   } catch (error) {
-    console.log(error);
-    return res.status(404).end();
+      console.log(error);
+      return res.status(404).end();
   }
 });
 

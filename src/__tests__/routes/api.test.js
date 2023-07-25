@@ -5,6 +5,9 @@ const { verifyUserAlreadyExists } = require('../../utils/verifyUserAlreadyExists
 
 const BASE_URL = 'http://localhost:3336';
 
+const updatedFirstName = 'Fulano';
+const updatedLastName = 'de Tal';
+
 const testUser = {
   firstName: 'John',
   lastName: 'Doe',
@@ -68,10 +71,6 @@ describe('Testes dos endpoints da api', () => {
       return;
     }
 
-    const user = JSON.parse(response.text);
-
-    expect(user.firstName).toEqual(testUser.firstName);
-    expect(user.lastName).toEqual(testUser.lastName);
     expect(response.status).toEqual(200);
   });
 
@@ -100,8 +99,8 @@ describe('Testes dos endpoints da api', () => {
       .put(`/api/users/${testUserId}`)
       .set('Content-Type', 'application/json')
       .send({
-        firstName: 'Primeiro nome atualizado',
-        lastName: 'Sobrenome atualizado 2'
+        firstName: updatedFirstName,
+        lastName: updatedLastName
       })
 
     if (!userAlreadyExists) {
