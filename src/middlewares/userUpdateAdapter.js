@@ -7,27 +7,25 @@ async function userUpdateAdapter(req, res, next) {
 
   const user = await UserController.findById(id);
 
-  if (!user) {
-      return res.status(404).end();
-  }
+  if (!user) return res.status(404).end();
 
   if (!password) {
-      req.updatedUser = {
-          firstName: firstName ?? user.firstName,
-          lastName: lastName ?? user.lastName,
-          password: user.password
-      }
+    req.updatedUser = {
+      firstName: firstName ?? user.firstName,
+      lastName: lastName ?? user.lastName,
+      password: user.password
+    }
 
-      next();
-      return;
+    next();
+    return;
   }
 
   const encryptedUpdatedPassword = await hashPassword(password);
 
   req.updatedUser = {
-      firstName: firstName ?? user.firstName,
-      lastName: lastName ?? user.lastName,
-      password: encryptedUpdatedPassword
+    firstName: firstName ?? user.firstName,
+    lastName: lastName ?? user.lastName,
+    password: encryptedUpdatedPassword
   }
 
   next();

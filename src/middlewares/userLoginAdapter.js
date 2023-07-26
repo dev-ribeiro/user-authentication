@@ -5,7 +5,7 @@ async function userLoginAdapter(req, res, next) {
   const { email } = req.params;
   const { password } = req.body;
 
-  if (!email || !password) return res.status(400).end();
+  if (!password) return res.status(400).end();
 
   const user = await UserController.findByEmail(email);
 

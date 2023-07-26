@@ -92,12 +92,12 @@ updateUserPassword.addEventListener('submit', async (e) => {
 });
 
 deleteButton.addEventListener('click', async () => {
-    const getUser = await fetch(`/api/find/${storageData.email}`);
+    const getUser = await fetch(`/api/users/${storageData.email}`);
 
     const { id } = await getUser.json();
 
     try {
-        await fetch(`/api/delete/${id}`, {
+        await fetch(`/api/users/${id}`, {
             method: 'DELETE'
         });
 
